@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Traffic Vehicle Monitoring System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="header">
+    🚦 Traffic Vehicle Monitoring System
+    <p>Computer Vision based Object Detection</p>
+</div>
+
+<div class="main">
+
+    <!-- Upload Panel -->
+    <div class="panel">
+        <h3>Upload Traffic Video</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="video" accept="video/*" required>
+            <br><br>
+            <button type="submit">Detect Traffic</button>
+        </form>
+
+        {% if vehicle_counts %}
+        <div class="stats">
+            <h4>Vehicle Count</h4>
+            <p>🚗 Cars: {{ vehicle_counts.Car }}</p>
+            <p>🏍 Motorcycles: {{ vehicle_counts.Motorcycle }}</p>
+            <p>🚌 Buses: {{ vehicle_counts.Bus }}</p>
+            <p>🚚 Trucks: {{ vehicle_counts.Truck }}</p>
+
+            <h4>Traffic Level</h4>
+            <p class="traffic {{ traffic_level|lower }}">{{ traffic_level }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Output Panel -->
+    <div class="panel">
+        <h3>Detected Output Video</h3>
+
+        {% if output_video %}
+        <video controls>
+            <source src="{{ url_for('output_video', filename=output_video) }}" type="video/mp4">
+        </video>
+        {% else %}
+        <p class="hint">Upload a traffic video to view detection results.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>
